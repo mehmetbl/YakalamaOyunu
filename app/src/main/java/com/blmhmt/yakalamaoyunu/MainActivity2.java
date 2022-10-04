@@ -2,11 +2,15 @@ package com.blmhmt.yakalamaoyunu;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -16,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity2 extends AppCompatActivity {
     TextView scoreText;
     TextView timeText;
+    TextView isimText;
     Boolean kontrol = false;
     int skor;
     ImageView imageView0;
@@ -36,6 +42,9 @@ public class MainActivity2 extends AppCompatActivity {
     Handler handler;
     Runnable runnable;
     Button button;
+    SQLiteDatabase database;
+    String isim;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         scoreText = findViewById(R.id.scoreText);
         timeText = findViewById(R.id.timeText);
+        isimText = findViewById(R.id.showNameText);
         imageView0 = findViewById(R.id.imageView0);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
@@ -53,16 +63,23 @@ public class MainActivity2 extends AppCompatActivity {
         imageView7 = findViewById(R.id.imageView7);
         imageView8 = findViewById(R.id.imageView8);
         imageArray = new ImageView[]{imageView0, imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7, imageView8};
+
         button = findViewById(R.id.button);
         skor = 0;
         button.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
+        isim = intent.getStringExtra("isim");
+        isimText.setText("Bol şans " + isim);
+
         boolean resimKontrol = intent.getBooleanExtra("kontrol",false);
         if(resimKontrol==true){
             for(int i=0 ; i<9 ; i++){
-                imageArray[i].setImageResource(R.drawable.sam);
+                imageArray[i].setImageResource(R.drawable.sam2);
             }
         }
+
+        database = MainActivity2.this.openOrCreateDatabase("skorboard", MODE_PRIVATE, null);
+
     }
 
     public void baslat(View view){
@@ -95,9 +112,40 @@ public class MainActivity2 extends AppCompatActivity {
                 alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MainActivity2.this,MainActivity.class);
-                        intent.putExtra("skor",skor);
-                        startActivity(intent);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity2.this);
+                        alert.setTitle("Skorun : " + skor);
+                        alert.setMessage("Skorunu kaydetmek ister misin?");
+                        alert.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+
+                                    database.execSQL("CREATE TABLE IF NOT EXISTS skorlar (id INTEGER PRIMARY KEY, ad VARCHAR, puan VARCHAR)");
+                                    String sqlString = "INSERT INTO skorlar(ad, puan) VALUES(?,?)";
+                                    SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
+                                    sqLiteStatement.bindString(1,isim);
+                                    sqLiteStatement.bindString(2,String.valueOf(skor));
+                                    sqLiteStatement.execute();
+
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+                                Intent intent = new Intent(MainActivity2.this,MainActivity.class);
+                                intent.putExtra("skor",skor);
+                                startActivity(intent);
+                            }
+                        });
+
+                        alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(MainActivity2.this,MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                        alert.show();
                     }
                 });
                 alert.show();
@@ -108,7 +156,7 @@ public class MainActivity2 extends AppCompatActivity {
     public void skorAlma(View view) {
       if(kontrol){
           skor++;
-          scoreText.setText("Skor: " + skor);
+          scoreText.setText("Skorun: " + skor);
       }
     }
 

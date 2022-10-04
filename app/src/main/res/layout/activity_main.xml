@@ -4,86 +4,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#66AABB"
+    android:background="@drawable/arkaplan"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/baslik"
-        android:layout_width="414dp"
-        android:layout_height="156dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="407dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/pixel"
         android:text="Yakalama Oyunu"
         android:textAlignment="center"
-        android:textColor="#5B0DB5"
-        android:textSize="60sp"
+        android:textColor="#4527A0"
+        android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="#787876"
-        android:onClick="change"
-        android:text="Sam"
-        android:textColor="#FFFEFE"
-        app:layout_constraintBottom_toTopOf="@+id/imageView11"
-        app:layout_constraintEnd_toStartOf="@+id/imageView10"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView11" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView10"
-        android:layout_width="217dp"
-        android:layout_height="349dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="193dp"
+        android:layout_height="379dp"
+        android:onClick="basla"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView11"
-        app:srcCompat="@drawable/bugs" />
+        app:layout_constraintTop_toBottomOf="@+id/hgText"
+        app:srcCompat="@drawable/bugs"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="217dp"
-        android:layout_height="425dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="288dp"
+        android:layout_width="191dp"
+        android:layout_height="386dp"
+        android:onClick="change"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView10"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sam" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="#787876"
-        android:onClick="basla"
-        android:text="Bugs Bunny"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/imageView10"
-        app:layout_constraintStart_toEndOf="@+id/imageView11"
-        app:layout_constraintTop_toTopOf="@+id/button6"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/hgText"
+        app:srcCompat="@drawable/sam"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/rekorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/zai"
         android:text="En yüksek skor: 0"
         android:textAlignment="center"
         android:textColor="#403F3F"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.447"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.314"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/baslik" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="268dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="72dp"
+        android:ems="10"
+        android:hint="Kullanıcı adı :"
+        android:inputType="textPersonName"
+        android:textColor="#1B1919"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rekorText" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="72dp"
+        android:onClick="leaderBoard"
+        app:layout_constraintBottom_toTopOf="@+id/editName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rekorText"
+        app:layout_constraintTop_toBottomOf="@+id/baslik"
+        app:layout_constraintVertical_bias="0.375"
+        app:srcCompat="@drawable/leaderboard" />
+
+    <TextView
+        android:id="@+id/hgText"
+        android:layout_width="412dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/motion"
+        android:text="Karakterini seç, oyuna başla!"
+        android:textAlignment="center"
+        android:textColor="#252323"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
